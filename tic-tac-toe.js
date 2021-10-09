@@ -39,20 +39,37 @@ document.addEventListener('DOMContentLoaded',(event)=>{
         return !clicked;
     }
 
-    //show x after click
+    
     let cell=[...document.getElementsByClassName('square')];
     let alt=true;
-    //console.log(cell);
-    cell.forEach((elem,index)=>{
-        //console.log(elem,index);
-        elem.addEventListener('click', e=>{
-            e.preventDefault();
-            alt=xo(elem,alt,index);
-            //console.log('o:'+o_selected+'x:'+x_selected);
-            //elem.textContent='X';
-        })
+    
+    
+    cell.forEach((elem,index)=>
+    {
+        //show x or o after click
+        elem.addEventListener('click', e=>
+            {
+                e.preventDefault();
+                alt=xo(elem,alt,index);
+                //console.log('o:'+o_selected+'x:'+x_selected);
+                //elem.textContent='X';
+            })
+
+        //Highlight box when mouse hovers over
+        elem.addEventListener('mouseover', e=>
+            {
+                e.preventDefault();
+                e.target.classList.add('hover');
+            });
+        elem.addEventListener('mouseout', e=>
+            {
+                e.preventDefault();
+                e.target.classList.remove('hover');
+            });
    });
    
+
+    
     
 
 });
