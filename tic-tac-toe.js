@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded',(event)=>{
     //variables for deciding who the winner is
 
     let match=0; //the number of selected boxes that corresponds to those in the possible_wins array
+    let matchcopy;
     let x_selected=[]; //array to store x moves
     let o_selected=[]; //array to store o moves
 
@@ -49,11 +50,15 @@ document.addEventListener('DOMContentLoaded',(event)=>{
             {
                 ele.classList.add('X'); 
                 ele.textContent='X';
-                x_selected.push(ind);
+                if(x_selected.includes(ind)==false)
+                {
+                    x_selected.push(ind);
+                }
                 if (x_selected.length>=3)   //if player X has played atleast 3 times already
                 {
                     match=0
                     findWinner('x',x_selected); //check if those 3 X's are in a row
+                    matchcopy=match;
                     if (match==3)               //if there are 3 x's in a row
                     {
                         winnermsg('x');         //display winner message
@@ -64,11 +69,15 @@ document.addEventListener('DOMContentLoaded',(event)=>{
             {
                 ele.classList.add('O');
                 ele.textContent='O';
-                o_selected.push(ind);
+                if(o_selected.includes(ind)==false)
+                {
+                    o_selected.push(ind);
+                }
                 if (o_selected.length>=3)   //if player O has played atleast 3 times already
                 {
                     match=0;
                     findWinner('o',o_selected); //check if those 3 O's are in a row
+                    matchcopy=match;
                     if (match==3)               //if there are 3 O's in a row
                     {
                         winnermsg('o');         //display winner message
@@ -93,9 +102,12 @@ document.addEventListener('DOMContentLoaded',(event)=>{
                 e.preventDefault();
                 if(match!==-1) // If match is -1 then no other cell can be selected to show either x or o
                     {
-                        alt=xo(elem,alt,index); //GameMaster decides what to do after cell is clicked
+                        if((elem.innerHTML!=='X' && elem.innerHTML!=='O'))
+                            {
+                                alt=xo(elem,alt,index); //GameMaster decides what to do after cell is clicked
+                            }
                     }
-                if (x_selected.length+o_selected.length==9) //if all the cells have been selcted and there is no winner then its a draw
+                if ((x_selected.length+o_selected.length==9)&&(matchcopy!==3)) //if all the cells have been selcted and there is no winner then its a draw
                     {
                         console.log("Game Draw!");
                         winnermsg('d');
@@ -147,12 +159,6 @@ document.addEventListener('DOMContentLoaded',(event)=>{
     restartBtn[0].addEventListener('click', e =>            //when new game button is clicked...
     {
         e.preventDefault();
-        cell.forEach((el,ind)=>                             //remove contents of each div/ cell and reset board
-            {
-                el.innerHTML="";
-            });
-        let statusdiv=document.getElementById('status');
-        statusdiv.classList.remove('you-won');              //remove style from text in status div
-        statusdiv.innerHTML="Move your mouse over a square and click to play an X or an O.";    //replace instructions
-    });
+        window.location.reload();                           //reset game
+   });
 });
