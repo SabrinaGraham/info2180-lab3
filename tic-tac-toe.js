@@ -142,4 +142,17 @@ document.addEventListener('DOMContentLoaded',(event)=>{
             });
         }
 
+    //Restart Game
+    let restartBtn = document.getElementsByClassName('btn');
+    restartBtn[0].addEventListener('click', e =>            //when new game button is clicked...
+    {
+        e.preventDefault();
+        cell.forEach((el,ind)=>                             //remove contents of each div/ cell and reset board
+            {
+                el.innerHTML="";
+            });
+        let statusdiv=document.getElementById('status');
+        statusdiv.classList.remove('you-won');              //remove style from text in status div
+        statusdiv.innerHTML="Move your mouse over a square and click to play an X or an O.";    //replace instructions
+    });
 });
